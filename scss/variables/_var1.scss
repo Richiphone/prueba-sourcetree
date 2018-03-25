@@ -1,0 +1,21 @@
+nav {
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+      
+    font-size: 30px;
+    line-height: 30px;
+  }
+
+  li { display: inline-block; 
+        background: red;
+    }
+
+  a {
+    display: block;
+    padding: 6px 12px;
+    text-decoration: none;
+    text-decoration: underline;
+  }
+}

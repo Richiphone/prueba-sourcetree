@@ -1,0 +1,33 @@
+{
+  "name": "git-curso",
+  "version": "1.0.0",
+  "description": "Tareas automatizadas con Gulp",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Richiphone/git-curso.git"
+  },
+  "author": "Richiphone",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Richiphone/git-curso/issues"
+  },
+  "homepage": "https://github.com/Richiphone/git-curso#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-notify": "^3.2.0"
+  },
+  "dependencies": {
+    "google-closure-compiler": "^20180204.0.0",
+    "gulp-clean-css": "^3.9.3",
+    "gulp-concat": "^2.6.1",
+    "gulp-sass": "^3.2.1",
+    "gulp-scss": "^1.4.0",
+    "gulp-uglify": "^3.0.0",
+    "pump": "^3.0.0",
+    "run-sequence": "^2.2.1"
+  }
+}

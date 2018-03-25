@@ -1,0 +1,117 @@
+Para trabajar con GIT
+-----------------------------------
+
+https://www.sourcetreeapp.com/ (programa visual para hacer commits, push, pull, etc)
+
+Crear un repositorio en (ejmp): 
+github - https://github.com/Richiphone/git-curso.git
+
+Desde la carpeta del proyecto, con la consola, clonamos el repositorio: 
+git clone git://github.com/Richiphone/git-curso.git
+
+Iniciar el GIT desde la carpeta del proyecto:
+git init
+
+
+Para trabajar con GULP
+-----------------------------------
+
+Hay que tener NODE instalado
+
+Desde la consola instalamos GULP de manera global:
+npm install --global gulp-cli
+
+Comprobamos la versión:
+gulp -v
+
+Desde la carpeta del proyecto creamos el archivo package.js:
+npm init
+E iremos respondiendo a las preguntas de la consola
+
+Luego agregamos GULP en nuestro proyecto:
+npm install --save-dev gulp
+
+Después creamos nuestro archivo gulpfile.js Con las tareas automatizadas dentro de nuestro proyecto:
+gulpfile.js
+
+Modificamos el archivo package.json para que redireccione a nuestro archivo gulpfile.js:
+"main": "gulpfile.js"
+
+Instalamos los plugins de GULP que necesitemos:
+SASS: npm i gulp-sass					/*npm i gulp-scss*/
+Comprimir CSS: npm i gulp-clean-css
+JAVASCRIPT: npm i gulp-uglify	npm i pump		/*google-closure-compiler*/
+Concatenar archivos CSS: npm i gulp-concat
+
+Instalamos el plugin gulp-notify para que nos muestre un mensaje al terminar la tarea de Gulp:
+npm install --save-dev gulp-notify
+
+Secuenciar todas las tareas: npm i run-sequence
+
+
+Y ahora configuramos el archivo gulpfile.js para que automatice estas tareas:
+
+var gulp = require('gulp');
+var sass = require('gulp-sass');
+var cleanCSS = require('gulp-clean-css');
+var uglify = require('gulp-uglify');
+var pump = require('pump');
+var concat = require('gulp-concat');
+var notify = require('gulp-notify');
+
+//Tarea para compilar archivos sass a css
+gulp.task('sass', function () {
+ return gulp.src('./sass/**/*.scss') //Ruta de la carpeta sass apuntando a los archivos `.scss`
+  .pipe(sass().on('error', sass.logError)) //Compila los archivos `.scss` y muestra posibles errores
+  .pipe(gulp.dest('./css'))//Carpeta donde se guardaran los archivos `.css` compilado
+  .pipe(notify("Tarea sass terminada!")); //Mensaje gracias al plugin `gulp-notify`
+});
+
+
+//Tarea para comprimir archivos css
+gulp.task('comprimir-css', function() {
+ return gulp.src('css/*.css') //Ruta de la carpeta css apuntando a los archivos `.css`
+  .pipe(cleanCSS({compatibility: 'ie8'})) //Comprime los archivos `.css`
+  .pipe(gulp.dest('dist')) //Carpeta donde se guardara el archivo `.css` comprimido
+  .pipe(notify("Tarea comprimir-css terminada!")); //Mensaje gracias al plugin `gulp-notify`
+});
+
+
+//Tarea para comprimir archivos js
+gulp.task('compress-js', function (cb) {
+ pump([
+  gulp.src('js/*.js'), //Ruta de la carpeta apuntando a los archivos `.js`
+  uglify(), //Comprime los archivos `.js`
+  gulp.dest('dist')//Carpeta donde se guardara el archivo `.js` comprimido
+   ],
+    cb
+  );
+});
+
+//Tarea para unir ó concatenar archivos
+gulp.task('unir-files', function() {
+ return gulp.src('./css/*.css') //Origen
+  .pipe(concat('all.css'))	//Concatenado los archivos 
+  .pipe(gulp.dest('./dist/')) //Destino
+  .pipe(notify("La tarea unir-files a terminado!")); //Mensaje
+});
+
+//Ejecutar todas las tareas
+gulp.task('task', function(cb) {
+ runSequence('sass', 'css_mini', 'js_mini', 'files_add', null); // no longer errors on `null`
+})
+
+//Vuelve a ejecutar la tarea cuando se modifica algún archivo 
+gulp.task('watch', function(){
+ gulp.watch('./sass/**/*', ['sass']);
+ gulp.watch('./css/**/*', ['comprimir-css']);
+ gulp.watch('./js/**/*', ['compress-js']);
+ gulp.watch('./css/**/*', ['unir-files']);
+});
+
+//Tarea por defecto
+gulp.task('default',['watch', 'sass']);
+gulp.task('default',['watch', 'comprimir-css']);
+gulp.task('default',['watch', 'compress-js']);
+gulp.task('default',['watch', 'unir-files']);
+
