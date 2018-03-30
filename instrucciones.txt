@@ -7,7 +7,7 @@ Crear un repositorio en (ejmp):
 github - https://github.com/Richiphone/git-curso.git
 
 Desde la carpeta del proyecto, con la consola, clonamos el repositorio: 
-git clone git://github.com/Richiphone/git-curso.git
+git clone https://github.com/Richiphone/git-curso.git
 
 Iniciar el GIT desde la carpeta del proyecto:
 git init
